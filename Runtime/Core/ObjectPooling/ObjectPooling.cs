@@ -23,15 +23,17 @@ namespace Core
 
         private bool _isInit;
         
-        public static ObjectPooling Instance 
+        public event Action OnLoadPoolsCompleted {get; set;}
+        
+        public static ObjectPooling Instance
         {
-            get 
+            get
             {
-                if (_instance == null) 
+                if (_instance == null)
                 {
                     _instance = FindFirstObjectByType<ObjectPooling>();
                 }
-                
+
                 return _instance;
             }
         }
@@ -244,7 +246,7 @@ namespace Core
             }
         }
 
-        private async void InitInternal(Action<List<PooledMono>> callback)
+        private async UniTask InitInternal(Action<List<PooledMono>> callback)
         {
             for (int i = 0; i < _poolItems.Length; i++)
             {
@@ -260,6 +262,11 @@ namespace Core
                 {
                     callback(GetFromPooledDict(poolItem.PoolType));
                 }
+            }
+
+            if (OnLoadPoolsCompleted != null)
+            {
+                OnLoadPoolsCompleted();
             }
         }
         

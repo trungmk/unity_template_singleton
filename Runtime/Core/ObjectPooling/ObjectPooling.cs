@@ -23,7 +23,7 @@ namespace Core
 
         private bool _isInit;
         
-        public event Action OnLoadPoolsCompleted {get; set;}
+        public Action OnLoadPoolsCompleted { get; set;}
         
         public static ObjectPooling Instance
         {
@@ -58,7 +58,7 @@ namespace Core
             }
             
             _isInit = true;
-            InitInternal(callback);
+            _ = InitInternal(callback);
         }
 
         public override void OnPreUnloaded()

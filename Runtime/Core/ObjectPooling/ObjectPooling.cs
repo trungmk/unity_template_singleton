@@ -58,7 +58,7 @@ namespace Core
             }
             
             _isInit = true;
-            _ = InitInternal(callback);
+            InitInternal(callback).Forget();
         }
 
         public override void OnPreUnloaded()
@@ -246,16 +246,25 @@ namespace Core
             }
         }
 
-        private async UniTask InitInternal(Action<List<PooledMono>> callback)
+        private async UniTaskVoid InitInternal(Action<List<PooledMono>> callback)
         {
             for (int i = 0; i < _poolItems.Length; i++)
             {
                 PoolItem poolItem = _poolItems[i];
 
+                UniTask<PooledMono>[] createTasks = new UniTask<PooledMono>[poolItem.AmountToPool];
                 for (int j = 0; j < poolItem.AmountToPool; j++)
                 {
-                    PooledMono pooledMono = await CreateObject(poolItem.AddressName, poolItem.PoolType);
-                    AddToPooledDict(pooledMono.PoolItemType, pooledMono);
+                    createTasks[j] = CreateObject(poolItem.AddressName, poolItem.PoolType);
+                }
+
+                PooledMono[] pooledMonos = await UniTask.WhenAll(createTasks);
+                foreach (PooledMono pooledMono in pooledMonos)
+                {
+                    if (pooledMono != null)
+                    {
+                        AddToPooledDict(pooledMono.PoolItemType, pooledMono);
+                    }
                 }
 
                 if (poolItem.NeedModifyAfterInit && callback != null)

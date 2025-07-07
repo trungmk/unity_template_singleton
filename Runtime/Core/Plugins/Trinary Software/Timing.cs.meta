@@ -15,5 +15,5 @@ AssetOrigin:
   productId: 54975
   packageName: 'More Effective Coroutines [FREE]'
   packageVersion: 3.13.0
-  assetPath: Assets/Plugins/Trinary Software/Timing.cs
-  uploadId: 723081
+  assetPath: Assets/Core_package/Runtime/Core/Plugins/Trinary Software/Timing.cs
+  uploadId: 723082

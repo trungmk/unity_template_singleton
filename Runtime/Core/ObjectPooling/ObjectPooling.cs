@@ -374,13 +374,9 @@ namespace Core
             return pooledItem;
         }
         
-        private void ReturnToPool(PooledMono objectToReturn)
+        public void ReturnToPool(PooledMono objectToReturn)
         {
             Transform objTransform = objectToReturn.transform;
-            if (objTransform.parent == transform)
-            {
-                return;
-            }
 
             objectToReturn.gameObject.SetActive(false);
             objTransform.SetParent(transform);
@@ -390,9 +386,7 @@ namespace Core
         
         public void ReturnToPool(GameObject objectToReturn)
         {
-            if (objectToReturn == null 
-                || objectToReturn.gameObject == null
-                || objectToReturn.transform.parent == this.transform)
+            if (objectToReturn == null)
             {
                 return;
             }

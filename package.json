@@ -1,6 +1,6 @@
 {
     "name": "com.maktrung.core",
-    "version": "1.0.22",
+    "version": "1.0.23",
     "displayName": "Core Framework",
     "description": "A core framework for Unity projects including asset loading, input handling, and object pooling, ect.",
     "unity": "2021.3",
